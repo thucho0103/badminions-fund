@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import './App.css'
 import AppFooter from './components/AppFooter'
 import ClubInfo from './components/ClubInfo'
@@ -6,11 +6,10 @@ import HeroSection from './components/HeroSection'
 import MembersTable from './components/MembersTable'
 import SummarySection from './components/SummarySection'
 import TransactionHistory from './components/TransactionHistory'
-import { transactions } from './data/transactions'
 import type { FundRecord } from './models/fund'
 import type { Member } from './models/member'
 import { formatCurrency } from './utils/formatCurrency'
-import { fetchStyledGrid, fetchValues } from './services/sheets'
+import { fetchValues } from './services/sheets'
 import { rowsToFunds, rowsToMembers } from './services/transform'
 
 function App() {
