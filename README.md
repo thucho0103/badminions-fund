@@ -1,5 +1,14 @@
 # React + TypeScript + Vite
 
+## Deploying to GitHub Pages
+
+1. Push the latest code to the `main` branch of `thucho0103/badminions-fund`.
+2. In GitHub, open **Settings → Pages** and ensure **Source** is set to **GitHub Actions**.
+3. Each push to `main` triggers `.github/workflows/deploy.yml`, which runs `npm run build` and publishes the contents of `dist` to GitHub Pages.
+4. After a successful run, your site is available at https://thucho0103.github.io/badminions-fund/.
+
+If you rename the repository, update the `base` option in `vite.config.ts` to match the new path.
+
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:
