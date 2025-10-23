@@ -90,6 +90,20 @@
   margin: 0.35rem 0;
 }
 
+.qr-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  text-align: center;
+}
+
+.qr-image {
+  width: min(220px, 100%);
+  border-radius: 14px;
+  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.12);
+}
+
 .summary {
   margin-bottom: 2.5rem;
 }
@@ -147,12 +161,17 @@
   box-shadow: 0 14px 40px rgba(15, 23, 42, 0.06);
   border: 1px solid rgba(104, 119, 141, 0.08);
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
   min-width: 640px;
+}
+
+.history-table {
+  min-width: 960px;
 }
 
 th,
@@ -213,7 +232,31 @@ footer {
     padding: 1.5rem;
   }
 
+  .summary h2,
+  .members h2,
+  .history h2 {
+    font-size: 1.35rem;
+  }
+
+  .info-card li {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.35rem;
+  }
+
+  .label {
+    min-width: auto;
+  }
+
+  .table-wrapper {
+    padding: 1.25rem;
+  }
+
   table {
     min-width: 520px;
+  }
+
+  .history-table {
+    min-width: 720px;
   }
 }

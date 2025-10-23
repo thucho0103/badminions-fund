@@ -5,36 +5,45 @@ interface TransactionHistoryProps {
   formatCurrency: (value: number) => string
 }
 
-const TransactionHistory = ({ transactions, formatCurrency }: TransactionHistoryProps) => (
-  <section className="history">
-    <h2>Lịch sử thu chi</h2>
-    <div className="table-wrapper">
-      <table>
-        <thead>
-          <tr>
-            <th>Tháng</th>
-            <th>Ngày</th>
-            <th>Diễn giải</th>
-            <th>Thu</th>
-            <th>Chi</th>
-            <th>Note</th>
-          </tr>
-        </thead>
-        <tbody>
-          {transactions.map((entry) => (
-            <tr key={entry.id}>
-              <td>{entry.month}</td>
-              <td>{entry.date}</td>
-              <td>{entry.description}</td>
-              <td>{formatCurrency(entry.income)}</td>
-              <td>{formatCurrency(entry.expense)}</td>
-              <td>{entry.note}</td>
+const TransactionHistory = ({ transactions, formatCurrency }: TransactionHistoryProps) => {
+  const columnWidths = ["6%", "6%", "32%", "14%", "14%", "30%"];
+
+  return (
+    <section className="history">
+      <h2>Lịch sử thu chi</h2>
+      <div className="table-wrapper">
+        <table className="history-table">
+          <colgroup>
+            {columnWidths.map((width, index) => (
+              <col key={index} style={{ width }} />
+            ))}
+          </colgroup>
+          <thead>
+            <tr>
+              <th>Tháng</th>
+              <th>Ngày</th>
+              <th>Diễn giải</th>
+              <th>Thu</th>
+              <th>Chi</th>
+              <th>Note</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  </section>
-)
+          </thead>
+          <tbody>
+            {transactions.map((entry) => (
+              <tr key={entry.id}>
+                <td>{entry.month}</td>
+                <td>{entry.date}</td>
+                <td>{entry.description}</td>
+                <td>{formatCurrency(entry.income)}</td>
+                <td>{formatCurrency(entry.expense)}</td>
+                <td>{entry.note}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  )
+}
 
 export default TransactionHistory

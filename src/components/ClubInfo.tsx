@@ -2,10 +2,16 @@ interface ClubInfoProps {
   formatCurrency: (value: number) => string
 }
 
+const qrCodeUrl = new URL('../assets/qr_code.png', import.meta.url).href;
+
 const ClubInfo = ({ formatCurrency }: ClubInfoProps) => (
   <section className="info-grid">
+    <div className="info-card qr-card">
+      <img className="qr-image" src={qrCodeUrl} alt="QR code tham gia Badminions" />
+    </div>
+
     <div className="info-card">
-      <h2>Chi tiết CLB</h2>
+      <h3>Chi tiết CLB</h3>
       <ul>
         <li>
           <span className="label">Thời gian:</span>
@@ -15,15 +21,9 @@ const ClubInfo = ({ formatCurrency }: ClubInfoProps) => (
           <span className="label">Địa điểm:</span>
           <span>Sân Hiếu Con - 172 Đỗ Quỳ</span>
         </li>
-        <li>
-          <span className="label">Liên hệ:</span>
-          <span>badminton.badminions@gmail.com</span>
-        </li>
       </ul>
-    </div>
-
-    <div className="info-card">
-      <h2>Biểu phí</h2>
+      <p></p>
+      <h3>Biểu phí</h3>
       <div className="fees">
         <div>
           <h3>Cố định</h3>
