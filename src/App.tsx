@@ -9,30 +9,33 @@ import TransactionHistory from './components/TransactionHistory'
 import type { FundRecord } from './models/fund'
 import type { Member } from './models/member'
 import { formatCurrency } from './utils/formatCurrency'
-import { fetchValues } from './services/sheets'
+import { fetchValues, fetchStyledGrid } from './services/sheets'
 import { rowsToFunds, rowsToMembers } from './services/transform'
 
 function App() {
-  
   const [funds, setFunds] = useState<string[][]>([]);
   const [members, setMembers] = useState<Member[]>([]);
+  const [periods, setPeriods] = useState<string[]>([]);
   const [fundRecords, setFundRecords] = useState<FundRecord[]>([]);
   const [loading, setLoading] = useState(true);
   const [err, setErr] = useState<string | null>(null);
-
+  const [activeTab, setActiveTab] = useState<'members' | 'transactions'>('members');
 
   useEffect(() => {
     (async () => {
       try {
         setLoading(true);
-        const [fundRows, memberRows, fundRecords] = await Promise.all([
+        const [fundRows, memberRows, fundRecordRows] = await Promise.all([
           fetchValues("THE BADMINIONS!I2:I4"),
-          fetchValues("THE BADMINIONS!J7:M100"),
-          fetchValues("THE BADMINIONS!A7:F100"),
+          fetchStyledGrid("THE BADMINIONS!J114:Z145"),
+          fetchValues("THE BADMINIONS!A7:F300"),
         ]);
         setFunds(fundRows);
-        setFundRecords(rowsToFunds(fundRecords));
-        setMembers(rowsToMembers(memberRows));  
+        setFundRecords(rowsToFunds(fundRecordRows));
+        
+        const parsed = rowsToMembers(memberRows);
+        setPeriods(parsed.periods);
+        setMembers(parsed.members);
       } catch (e: any) {
         setErr(e?.message ?? "Load data failed");
       } finally {
@@ -48,10 +51,35 @@ function App() {
     <div className="page">
       <HeroSection />
       <ClubInfo formatCurrency={formatCurrency} />
-      <SummarySection totalIncome={funds[0].at(0) ?? ""} totalExpense={funds[1].at(0) ?? ""} finalTotal={funds[2].at(0) ?? ""}/>
-      <MembersTable members={members} />
-      <p className='mb-4'></p>
-      <TransactionHistory transactions={fundRecords} formatCurrency={formatCurrency} />
+      <SummarySection 
+        totalIncome={funds[0]?.at(0) ?? ""} 
+        totalExpense={funds[1]?.at(0) ?? ""} 
+        finalTotal={funds[2]?.at(0) ?? ""}
+      />
+      
+      <div className="tabs-container">
+        <button 
+          className={`tab-button ${activeTab === 'members' ? 'active' : ''}`}
+          onClick={() => setActiveTab('members')}
+        >
+          👥 Danh sách thành viên
+        </button>
+        <button 
+          className={`tab-button ${activeTab === 'transactions' ? 'active' : ''}`}
+          onClick={() => setActiveTab('transactions')}
+        >
+          📊 Lịch sử thu chi
+        </button>
+      </div>
+
+      <div className="tab-content">
+        {activeTab === 'members' ? (
+          <MembersTable periods={periods} members={members} />
+        ) : (
+          <TransactionHistory transactions={fundRecords} formatCurrency={formatCurrency} />
+        )}
+      </div>
+      
       <AppFooter />
     </div>
   )
